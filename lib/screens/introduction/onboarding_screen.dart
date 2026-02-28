@@ -20,8 +20,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int index = 0;
   bool _isSigningIn = false;
   void move() {
-    controller.animateTo(controllerOffset + 392,
-        curve: Curves.easeIn, duration: const Duration(milliseconds: 500));
+    controller.animateTo(
+      controllerOffset + 392,
+      curve: Curves.easeIn,
+      duration: const Duration(milliseconds: 500),
+    );
   }
 
   @override
@@ -55,157 +58,159 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
-        backgroundColor: Colors.grey[100],
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SingleChildScrollView(
-              controller: controller,
-              scrollDirection: Axis.horizontal,
+      backgroundColor: Colors.grey[100],
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SingleChildScrollView(
+            controller: controller,
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: imgUrl
+                  .map(
+                    (e) => BannerImages(height: height, width: width, image: e),
+                  )
+                  .toList(),
+            ),
+          ),
+          SingleChildScrollView(
+            controller: controller,
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
-                  children: imgUrl
-                      .map((e) => BannerImages(
-                            height: height,
-                            width: width,
-                            image: e,
-                          ))
-                      .toList()),
-            ),
-            SingleChildScrollView(
-              controller: controller,
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(seconds: 1),
-                      curve: Curves.fastOutSlowIn,
-                      height: 5,
-                      width: 30,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: controllerOffset < 300
-                              ? const Color(0xff721c80).withOpacity(0.8)
-                              : Colors.grey.withOpacity(0.8)),
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.fastOutSlowIn,
+                    height: 5,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: controllerOffset < 300
+                          ? const Color(0xff721c80).withOpacity(0.8)
+                          : Colors.grey.withOpacity(0.8),
                     ),
-                    const SizedBox(
-                      width: 10,
+                  ),
+                  const SizedBox(width: 10),
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.fastOutSlowIn,
+                    height: 5,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: 300 < controllerOffset && controllerOffset < 600
+                          ? const Color(0xff721c80).withOpacity(0.8)
+                          : Colors.grey.withOpacity(0.8),
                     ),
-                    AnimatedContainer(
-                      duration: const Duration(seconds: 1),
-                      curve: Curves.fastOutSlowIn,
-                      height: 5,
-                      width: 30,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color:
-                              300 < controllerOffset && controllerOffset < 600
-                                  ? const Color(0xff721c80).withOpacity(0.8)
-                                  : Colors.grey.withOpacity(0.8)),
+                  ),
+                  const SizedBox(width: 10),
+                  AnimatedContainer(
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.fastOutSlowIn,
+                    height: 5,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: 600 < controllerOffset && controllerOffset < 800
+                          ? const Color(0xff721c80).withOpacity(0.8)
+                          : Colors.grey.withOpacity(0.8),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    AnimatedContainer(
-                      duration: const Duration(seconds: 1),
-                      curve: Curves.fastOutSlowIn,
-                      height: 5,
-                      width: 30,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color:
-                              600 < controllerOffset && controllerOffset < 800
-                                  ? const Color(0xff721c80).withOpacity(0.8)
-                                  : Colors.grey.withOpacity(0.8)),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 10),
+                ],
               ),
             ),
-            const Text(
-              "The Professional Specialists",
+          ),
+          const Text(
+            "The Professional Specialists",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              "Book appointments with top salon specialists.\nDiscover styles, services & exclusive offers.",
               style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
-              child: Text(
-                "Book appointments with top salon specialists.\nDiscover styles, services & exclusive offers.",
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
-                    height: 1.5),
-                textAlign: TextAlign.center,
+                color: Colors.grey,
+                fontSize: 15,
+                fontWeight: FontWeight.normal,
+                height: 1.5,
               ),
+              textAlign: TextAlign.center,
             ),
-            GestureDetector(
-              onTap: _isSigningIn
-                  ? null
-                  : () {
-                      setState(() => _isSigningIn = true);
-                      Authentication.signInWithGoogle(context: context)
-                          .then(((value) {
-                        if (value != null) {
-                          userProvider.setUser(value);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
+          ),
+          GestureDetector(
+            onTap: _isSigningIn
+                ? null
+                : () {
+                    setState(() => _isSigningIn = true);
+                    Authentication.signInWithGoogle(context: context)
+                        .then(((value) {
+                          if (value != null) {
+                            userProvider.setUser(value);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
                                 builder: (ctx) =>
-                                    const BottomNavigationComponent()),
-                          );
-                        } else {
-                          if (mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text(
-                                    'Sign in failed. Please try again.'),
-                                backgroundColor: Colors.red[700],
-                                behavior: SnackBarBehavior.floating,
+                                    const BottomNavigationComponent(),
                               ),
                             );
+                          } else {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Sign in failed. Please try again.',
+                                  ),
+                                  backgroundColor: Colors.red[700],
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
                           }
-                        }
-                      })).whenComplete(() {
-                        if (mounted) setState(() => _isSigningIn = false);
-                      });
-                    },
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 30),
-                height: 50,
-                width: 220,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: AppTheme.primaryGradient,
-                ),
-                child: Center(
-                    child: _isSigningIn
-                        ? const SizedBox(
-                            height: 22,
-                            width: 22,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2.5,
-                              color: Colors.white,
-                            ),
-                          )
-                        : const Text(
-                            "Get Started",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                          )),
+                        }))
+                        .whenComplete(() {
+                          if (mounted) setState(() => _isSigningIn = false);
+                        });
+                  },
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 30),
+              height: 50,
+              width: 220,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: AppTheme.primaryGradient,
               ),
-            )
-          ],
-        ));
+              child: Center(
+                child: _isSigningIn
+                    ? const SizedBox(
+                        height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text(
+                        "Get Started",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

@@ -58,7 +58,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 onTap: _goToPreviousMonth,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.arrow_back_ios, color: Colors.white60, size: 20),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white60,
+                    size: 20,
+                  ),
                 ),
               ),
               const Spacer(),

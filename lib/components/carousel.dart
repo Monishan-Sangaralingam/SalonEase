@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:salon_app/utils/app_theme.dart';
 
 class Carousel extends StatelessWidget {
-  const Carousel({
-    Key? key,
-    this.onBookTap,
-  }) : super(key: key);
+  const Carousel({Key? key, this.onBookTap}) : super(key: key);
 
   final VoidCallback? onBookTap;
 
@@ -27,21 +24,18 @@ class Carousel extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Spacer(
-                    flex: 2,
-                  ),
+                  const Spacer(flex: 2),
                   const Text(
                     "Look Awesome",
                     style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1),
+                      color: Color(0xffffffff),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   const Text(
                     "& Save Some",
                     style: TextStyle(
@@ -93,22 +87,19 @@ class Carousel extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Spacer(
-                    flex: 2,
-                  ),
+                  const Spacer(flex: 2),
                   const Text(
                     "Book your\nAppointment",
                     style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontStyle: FontStyle.italic,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1),
+                      color: Color(0xffffffff),
+                      fontStyle: FontStyle.italic,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   const Text(
                     "Now",
                     style: TextStyle(
@@ -120,10 +111,7 @@ class Carousel extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   const Spacer(),
-                  Btn(
-                    text: "Book Here!",
-                    onTap: onBookTap,
-                  ),
+                  Btn(text: "Book Here!", onTap: onBookTap),
                 ],
               ),
               const Spacer(),
@@ -139,7 +127,6 @@ class Carousel extends StatelessWidget {
             ],
           ),
         ),
-
       ],
       options: CarouselOptions(
         //autoPlayInterval: Duration(minutes: 1),
@@ -161,11 +148,7 @@ class Carousel extends StatelessWidget {
 class Btn extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
-  const Btn({
-    Key? key,
-    required this.text,
-    this.onTap,
-  }) : super(key: key);
+  const Btn({Key? key, required this.text, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -195,14 +178,15 @@ class Btn extends StatelessWidget {
           ],
         ),
         child: Center(
-            child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        )),
+        ),
       ),
     );
   }

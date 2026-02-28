@@ -18,7 +18,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     const HomeScreen(),
     const MapsPage(),
     const BookingScreen(),
-    const ProfileScreen()
+    const ProfileScreen(),
   ];
 
   int _selectedIndex = 0;
@@ -34,32 +34,37 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     return Scaffold(
       body: screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                activeIcon: Icon(Icons.home),
-                label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.location_on_outlined),
-                activeIcon: Icon(Icons.location_on),
-                label: 'Visit'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.edit_calendar_outlined),
-                activeIcon: Icon(Icons.edit_calendar),
-                label: 'Book'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
-                activeIcon: Icon(Icons.person),
-                label: 'Profile'),
-          ],
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex,
-          selectedItemColor: AppTheme.primaryColor,
-          unselectedItemColor: Colors.grey,
-          iconSize: 26,
-          onTap: _onItemTapped,
-          backgroundColor: Colors.white,
-          elevation: 8),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.location_on_outlined),
+            activeIcon: Icon(Icons.location_on),
+            label: 'Visit',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.edit_calendar_outlined),
+            activeIcon: Icon(Icons.edit_calendar),
+            label: 'Book',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
+        selectedItemColor: AppTheme.primaryColor,
+        unselectedItemColor: Colors.grey,
+        iconSize: 26,
+        onTap: _onItemTapped,
+        backgroundColor: Colors.white,
+        elevation: 8,
+      ),
     );
   }
 }

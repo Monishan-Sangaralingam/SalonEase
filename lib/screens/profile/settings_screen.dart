@@ -165,7 +165,8 @@ class _SettingsTile extends StatelessWidget {
           subtitle,
           style: TextStyle(color: Colors.grey[600], fontSize: 13),
         ),
-        trailing: trailing ?? const Icon(Icons.chevron_right, color: Colors.grey),
+        trailing:
+            trailing ?? const Icon(Icons.chevron_right, color: Colors.grey),
         onTap: onTap,
       ),
     );

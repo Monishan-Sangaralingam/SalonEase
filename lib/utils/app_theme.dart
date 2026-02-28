@@ -7,7 +7,9 @@ class AppTheme {
 
   // ── Primary Colors ──
   static const Color primaryColor = Color(0xff721c80);
-  static const Color primaryLight = Color(0xFFC467A9); // Color.fromARGB(255, 196, 103, 169)
+  static const Color primaryLight = Color(
+    0xFFC467A9,
+  ); // Color.fromARGB(255, 196, 103, 169)
   static const Color primaryDark = Color(0xFF5A1566);
 
   // ── Accent / Secondary ──
@@ -53,10 +55,7 @@ class AppTheme {
     fontSize: 18,
   );
 
-  static const TextStyle bodyText = TextStyle(
-    color: textDark,
-    fontSize: 14,
-  );
+  static const TextStyle bodyText = TextStyle(color: textDark, fontSize: 14);
 
   static const TextStyle bodyTextGrey = TextStyle(
     color: textGrey,
@@ -77,13 +76,8 @@ class AppTheme {
   );
 
   // ── Decorations ──
-  static BoxDecoration gradientDecoration({
-    BorderRadius? borderRadius,
-  }) {
-    return BoxDecoration(
-      gradient: primaryGradient,
-      borderRadius: borderRadius,
-    );
+  static BoxDecoration gradientDecoration({BorderRadius? borderRadius}) {
+    return BoxDecoration(gradient: primaryGradient, borderRadius: borderRadius);
   }
 
   static BoxDecoration cardDecoration = BoxDecoration(
@@ -100,29 +94,27 @@ class AppTheme {
 
   // ── Theme Data ──
   static ThemeData get themeData => ThemeData(
-        primarySwatch: Colors.purple,
-        primaryColor: primaryColor,
-        scaffoldBackgroundColor: backgroundLight,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: primaryColor,
-          foregroundColor: white,
-          elevation: 0,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor,
-            foregroundColor: white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 14),
-          ),
-        ),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: primaryColor,
-          primary: primaryColor,
-        ),
-      );
+    primarySwatch: Colors.purple,
+    primaryColor: primaryColor,
+    scaffoldBackgroundColor: backgroundLight,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryColor,
+      foregroundColor: white,
+      elevation: 0,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        foregroundColor: white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: const EdgeInsets.symmetric(vertical: 14),
+      ),
+    ),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: primaryColor,
+      primary: primaryColor,
+    ),
+  );
 
   // ── Helper: status color ──
   static Color statusColor(String status) {

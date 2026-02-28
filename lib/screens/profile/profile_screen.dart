@@ -419,12 +419,17 @@ class ProfileScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          Navigator.of(
+                            context,
+                          ).popUntil((route) => route.isFirst);
                         },
                         icon: const Icon(Icons.login, color: Colors.white),
                         label: const Text(
                           'Sign In',
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.primaryColor,
@@ -458,9 +463,7 @@ class ProfileScreen extends StatelessWidget {
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SettingsScreen(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const SettingsScreen()),
                   );
                 },
                 child: const SizedBox.shrink(),

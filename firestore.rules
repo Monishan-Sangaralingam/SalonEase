@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Services & workers: anyone can read, authenticated users can write
+    match /services/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    match /workers/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    // Bookings: users can read/write their own bookings
+    match /bookings/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    // Reviews: users can read/write their own reviews
+    match /reviews/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

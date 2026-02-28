@@ -446,7 +446,7 @@ class _BookingScreenState extends State<BookingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                    if (widget.workerName != null || widget.workerImg != null)
+                  if (widget.workerName != null || widget.workerImg != null)
                     _buildWorkerCard()
                   else
                     Container(
@@ -454,11 +454,17 @@ class _BookingScreenState extends State<BookingScreen> {
                       decoration: BoxDecoration(
                         color: Colors.orange[50],
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                        border: Border.all(
+                          color: Colors.orange.withOpacity(0.3),
+                        ),
                       ),
                       child: Row(
                         children: [
-                          Icon(Icons.info_outline, color: Colors.orange[700], size: 28),
+                          Icon(
+                            Icons.info_outline,
+                            color: Colors.orange[700],
+                            size: 28,
+                          ),
                           const SizedBox(width: 14),
                           Expanded(
                             child: Column(
@@ -562,8 +568,7 @@ class _BookingScreenState extends State<BookingScreen> {
                     ? StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('reviews')
-                            .where('workerId',
-                                isEqualTo: widget.workerId)
+                            .where('workerId', isEqualTo: widget.workerId)
                             .limit(200)
                             .snapshots(),
                         builder: (context, snapshot) {
@@ -571,13 +576,18 @@ class _BookingScreenState extends State<BookingScreen> {
                               snapshot.data!.docs.isEmpty) {
                             return Row(
                               children: const [
-                                Icon(Icons.star_border,
-                                    size: 16, color: Colors.amber),
+                                Icon(
+                                  Icons.star_border,
+                                  size: 16,
+                                  color: Colors.amber,
+                                ),
                                 SizedBox(width: 4),
                                 Text(
                                   'No reviews yet',
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 13),
+                                    color: Colors.grey,
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ],
                             );
@@ -586,25 +596,28 @@ class _BookingScreenState extends State<BookingScreen> {
                           double total = 0;
                           int count = 0;
                           for (final doc in docs) {
-                            final data =
-                                doc.data() as Map<String, dynamic>;
+                            final data = doc.data() as Map<String, dynamic>;
                             final r = data['rating'];
                             if (r is num) {
                               total += r.toDouble();
                               count++;
                             }
                           }
-                          final avg =
-                              count > 0 ? (total / count) : 0.0;
+                          final avg = count > 0 ? (total / count) : 0.0;
                           return Row(
                             children: [
-                              const Icon(Icons.star,
-                                  size: 16, color: Colors.amber),
+                              const Icon(
+                                Icons.star,
+                                size: 16,
+                                color: Colors.amber,
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 '${avg.toStringAsFixed(1)} ($count review${count == 1 ? '' : 's'})',
                                 style: const TextStyle(
-                                    color: Colors.grey, fontSize: 13),
+                                  color: Colors.grey,
+                                  fontSize: 13,
+                                ),
                               ),
                             ],
                           );
@@ -612,13 +625,15 @@ class _BookingScreenState extends State<BookingScreen> {
                       )
                     : Row(
                         children: const [
-                          Icon(Icons.star_border,
-                              size: 16, color: Colors.amber),
+                          Icon(
+                            Icons.star_border,
+                            size: 16,
+                            color: Colors.amber,
+                          ),
                           SizedBox(width: 4),
                           Text(
                             'No reviews yet',
-                            style:
-                                TextStyle(color: Colors.grey, fontSize: 13),
+                            style: TextStyle(color: Colors.grey, fontSize: 13),
                           ),
                         ],
                       ),
