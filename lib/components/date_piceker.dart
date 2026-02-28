@@ -1,5 +1,6 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:salon_app/utils/app_theme.dart';
 
 class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({super.key, this.initialDate, this.onDateChanged});
@@ -13,11 +14,36 @@ class CustomDatePicker extends StatefulWidget {
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
   late DateTime newdate;
+  late DateTime _startDate;
+  final DatePickerController _datePickerController = DatePickerController();
 
   @override
   void initState() {
     super.initState();
     newdate = widget.initialDate ?? DateTime.now();
+    _startDate = DateTime(newdate.year, newdate.month, 1);
+  }
+
+  void _goToPreviousMonth() {
+    setState(() {
+      final prevMonth = DateTime(_startDate.year, _startDate.month - 1, 1);
+      final now = DateTime.now();
+      // Don't go before the current month
+      if (prevMonth.year > now.year ||
+          (prevMonth.year == now.year && prevMonth.month >= now.month)) {
+        _startDate = prevMonth;
+        newdate = prevMonth;
+        widget.onDateChanged?.call(newdate);
+      }
+    });
+  }
+
+  void _goToNextMonth() {
+    setState(() {
+      _startDate = DateTime(_startDate.year, _startDate.month + 1, 1);
+      newdate = _startDate;
+      widget.onDateChanged?.call(newdate);
+    });
   }
 
   @override
@@ -28,7 +54,13 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           padding: const EdgeInsets.only(top: 20),
           child: Row(
             children: [
-              const Icon(Icons.arrow_back_ios, color: Colors.white60, size: 20),
+              GestureDetector(
+                onTap: _goToPreviousMonth,
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.arrow_back_ios, color: Colors.white60, size: 20),
+                ),
+              ),
               const Spacer(),
               Text(
                 "${setMonth(newdate.month)}, ${newdate.year}",
@@ -39,10 +71,16 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 ),
               ),
               const Spacer(),
-              const Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.white60,
-                size: 20,
+              GestureDetector(
+                onTap: _goToNextMonth,
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white60,
+                    size: 20,
+                  ),
+                ),
               ),
             ],
           ),
@@ -50,15 +88,13 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 18),
           child: DatePicker(
-            DateTime.now(),
-            // monthTextStyle: TextStyle(color: Colors.white),
-            //    dateTextStyle: TextStyle(
-            // color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-            // dayTextStyle: TextStyle(color: Colors.white),
+            _startDate.isBefore(DateTime.now()) ? DateTime.now() : _startDate,
+            controller: _datePickerController,
             deactivatedColor: Colors.white,
-            initialSelectedDate: DateTime.now(),
+            initialSelectedDate: newdate,
             selectionColor: Colors.white,
-            selectedTextColor: const Color(0xff721c80),
+            selectedTextColor: AppTheme.primaryColor,
+            daysCount: _daysRemainingInMonth(),
             onDateChange: (date) {
               setState(() {
                 newdate = date;
@@ -70,6 +106,15 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         ),
       ],
     );
+  }
+
+  int _daysRemainingInMonth() {
+    final lastDay = DateTime(_startDate.year, _startDate.month + 1, 0).day;
+    final now = DateTime.now();
+    if (_startDate.year == now.year && _startDate.month == now.month) {
+      return lastDay - now.day + 1;
+    }
+    return lastDay;
   }
 
   String setMonth(monthNo) {

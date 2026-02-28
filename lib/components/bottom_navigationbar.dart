@@ -3,6 +3,7 @@ import 'package:salon_app/screens/booking/booking_screen.dart';
 import 'package:salon_app/screens/home/home_screen.dart';
 import 'package:salon_app/screens/maps/maps_screen.dart';
 import 'package:salon_app/screens/profile/profile_screen.dart';
+import 'package:salon_app/utils/app_theme.dart';
 
 class BottomNavigationComponent extends StatefulWidget {
   const BottomNavigationComponent({super.key});
@@ -35,40 +36,30 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
       bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                  color: Color(0xff721c80),
-                ),
-                label: 'Home',
-                backgroundColor: Colors.white),
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home),
+                label: 'Home'),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.location_on_outlined,
-                  color: Color(0xff721c80),
-                ),
-                label: 'Visit',
-                backgroundColor: Colors.white),
+                icon: Icon(Icons.location_on_outlined),
+                activeIcon: Icon(Icons.location_on),
+                label: 'Visit'),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.edit_calendar_outlined,
-                  color: Color(0xff721c80),
-                ),
-                label: 'Book',
-                backgroundColor: Colors.white),
+                icon: Icon(Icons.edit_calendar_outlined),
+                activeIcon: Icon(Icons.edit_calendar),
+                label: 'Book'),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person,
-                  color: Color(0xff721c80),
-                ),
-                label: 'Profile',
-                backgroundColor: Colors.white),
+                icon: Icon(Icons.person_outline),
+                activeIcon: Icon(Icons.person),
+                label: 'Profile'),
           ],
-          type: BottomNavigationBarType.shifting,
+          type: BottomNavigationBarType.fixed,
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.black,
+          selectedItemColor: AppTheme.primaryColor,
+          unselectedItemColor: Colors.grey,
           iconSize: 26,
           onTap: _onItemTapped,
-          elevation: 5),
+          backgroundColor: Colors.white,
+          elevation: 8),
     );
   }
 }

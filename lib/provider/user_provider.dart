@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class UserProvider extends ChangeNotifier {
   User? user;
 
-  void setUser(newUser) {
+  void setUser(User? newUser) {
     user = newUser;
     notifyListeners();
   }

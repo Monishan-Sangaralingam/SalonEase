@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:salon_app/components/bottom_navigationbar.dart';
 import 'package:salon_app/provider/user_provider.dart';
+import 'package:salon_app/utils/app_theme.dart';
 
 import '../../controller/auth_controller.dart';
 
@@ -17,12 +18,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   ScrollController controller = ScrollController();
   double controllerOffset = 0.0;
   int index = 0;
+  bool _isSigningIn = false;
   void move() {
     controller.animateTo(controllerOffset + 392,
         curve: Curves.easeIn, duration: const Duration(milliseconds: 500));
   }
 
-  bool isRev = false;
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3), () {
@@ -60,7 +61,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SingleChildScrollView(
-              reverse: isRev,
               controller: controller,
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -73,7 +73,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       .toList()),
             ),
             SingleChildScrollView(
-              reverse: isRev,
               controller: controller,
               scrollDirection: Axis.horizontal,
               child: Padding(
@@ -135,51 +134,74 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             ),
-            const Text(
-              "choose your hairStyle choose your hair\n          style choose your hairStyle",
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                  fontWeight: FontWeight.normal),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                "Book appointments with top salon specialists.\nDiscover styles, services & exclusive offers.",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal,
+                    height: 1.5),
+                textAlign: TextAlign.center,
+              ),
             ),
             GestureDetector(
-              onTap: () {
-                Authentication.signInWithGoogle(context: context)
-                    .then(((value) {
-                  if (value != null) {
-                    userProvider.setUser(value);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (ctx) => const BottomNavigationComponent()),
-                    );
-                  }
-                }));
-              },
+              onTap: _isSigningIn
+                  ? null
+                  : () {
+                      setState(() => _isSigningIn = true);
+                      Authentication.signInWithGoogle(context: context)
+                          .then(((value) {
+                        if (value != null) {
+                          userProvider.setUser(value);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) =>
+                                    const BottomNavigationComponent()),
+                          );
+                        } else {
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                    'Sign in failed. Please try again.'),
+                                backgroundColor: Colors.red[700],
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          }
+                        }
+                      })).whenComplete(() {
+                        if (mounted) setState(() => _isSigningIn = false);
+                      });
+                    },
               child: Container(
                 margin: const EdgeInsets.only(bottom: 30),
                 height: 50,
                 width: 220,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: const Color(0xff721c80),
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xff721c80),
-                      Color.fromARGB(255, 196, 103, 169),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  gradient: AppTheme.primaryGradient,
                 ),
-                child: const Center(
-                    child: Text(
-                  "Get Started",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                )),
+                child: Center(
+                    child: _isSigningIn
+                        ? const SizedBox(
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Text(
+                            "Get Started",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          )),
               ),
             )
           ],
@@ -207,6 +229,24 @@ class BannerImages extends StatelessWidget {
       child: Image.network(
         image,
         fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => Container(
+          color: Colors.grey[200],
+          child: const Center(
+            child: Icon(Icons.image_outlined, size: 60, color: Colors.grey),
+          ),
+        ),
+        loadingBuilder: (_, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            color: Colors.grey[100],
+            child: const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppTheme.primaryColor,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

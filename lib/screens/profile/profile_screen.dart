@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:salon_app/provider/user_provider.dart';
 import 'package:salon_app/screens/profile/booking_history_screen.dart';
 import 'package:salon_app/screens/profile/my_reviews_screen.dart';
+import 'package:salon_app/screens/profile/settings_screen.dart';
+import 'package:salon_app/utils/app_theme.dart';
 import 'package:salon_app/widgets/horizontal_line.dart';
 
 import '../../controller/auth_controller.dart';
@@ -406,6 +408,37 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               if (authUser == null)
+                Column(
+                  children: [
+                    const SectionCard(
+                      header: 'Welcome to SalonEase',
+                      desc: 'Sign in to manage your bookings and reviews.',
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).popUntil((route) => route.isFirst);
+                        },
+                        icon: const Icon(Icons.login, color: Colors.white),
+                        label: const Text(
+                          'Sign In',
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              if (authUser == null)
                 const SectionCard(
                   header: 'My bookings',
                   desc: 'Sign in to view your booking history.',
@@ -424,10 +457,9 @@ class ProfileScreen extends StatelessWidget {
                 subtitle: 'Account & notifications',
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Settings screen not added yet.'),
-                      behavior: SnackBarBehavior.floating,
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const SettingsScreen(),
                     ),
                   );
                 },

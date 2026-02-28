@@ -371,8 +371,6 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final workerId = widget.workerId;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -448,8 +446,46 @@ class _BookingScreenState extends State<BookingScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (widget.workerName != null || widget.workerImg != null)
-                    _buildWorkerCard(),
+                    if (widget.workerName != null || widget.workerImg != null)
+                    _buildWorkerCard()
+                  else
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.orange[50],
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.info_outline, color: Colors.orange[700], size: 28),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'No specialist selected',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange[800],
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Go to the Home screen and tap on a specialist to book with them.',
+                                  style: TextStyle(
+                                    color: Colors.orange[700],
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   const SizedBox(height: 20),
                   const Text(
                     "Available Slots",
@@ -521,16 +557,71 @@ class _BookingScreenState extends State<BookingScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Row(
-                  children: const [
-                    Icon(Icons.star, size: 16, color: Colors.amber),
-                    SizedBox(width: 4),
-                    Text(
-                      '4.8 (120 reviews)',
-                      style: TextStyle(color: Colors.grey, fontSize: 13),
-                    ),
-                  ],
-                ),
+                // Dynamic rating from Firestore
+                widget.workerId != null
+                    ? StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('reviews')
+                            .where('workerId',
+                                isEqualTo: widget.workerId)
+                            .limit(200)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData ||
+                              snapshot.data!.docs.isEmpty) {
+                            return Row(
+                              children: const [
+                                Icon(Icons.star_border,
+                                    size: 16, color: Colors.amber),
+                                SizedBox(width: 4),
+                                Text(
+                                  'No reviews yet',
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 13),
+                                ),
+                              ],
+                            );
+                          }
+                          final docs = snapshot.data!.docs;
+                          double total = 0;
+                          int count = 0;
+                          for (final doc in docs) {
+                            final data =
+                                doc.data() as Map<String, dynamic>;
+                            final r = data['rating'];
+                            if (r is num) {
+                              total += r.toDouble();
+                              count++;
+                            }
+                          }
+                          final avg =
+                              count > 0 ? (total / count) : 0.0;
+                          return Row(
+                            children: [
+                              const Icon(Icons.star,
+                                  size: 16, color: Colors.amber),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${avg.toStringAsFixed(1)} ($count review${count == 1 ? '' : 's'})',
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 13),
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    : Row(
+                        children: const [
+                          Icon(Icons.star_border,
+                              size: 16, color: Colors.amber),
+                          SizedBox(width: 4),
+                          Text(
+                            'No reviews yet',
+                            style:
+                                TextStyle(color: Colors.grey, fontSize: 13),
+                          ),
+                        ],
+                      ),
               ],
             ),
           ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:salon_app/components/searchbar.dart' as app_widgets;
 import 'package:salon_app/screens/booking/booking_screen.dart';
 import 'package:salon_app/screens/profile/profile_screen.dart';
+import 'package:salon_app/utils/app_theme.dart';
 import '../../components/carousel.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -1511,21 +1512,21 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icons.language,
             label: 'Website',
             onTap: () {
-              // Open website
+              _showSnack('Visit www.salonease.com for more info.');
             },
           ),
           _buildActionButton(
             icon: Icons.discount,
             label: 'Offers',
             onTap: () {
-              // Navigate to offers
+              _showSnack('New offers coming soon! Stay tuned.');
             },
           ),
           _buildActionButton(
             icon: Icons.phone_in_talk_sharp,
             label: 'Call',
             onTap: () {
-              // Make phone call
+              _showSnack('Contact us at: +94 77 123 4567');
             },
           ),
         ],
@@ -1545,7 +1546,14 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Icon(icon, size: 28, color: const Color(0xff721c80)),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, size: 28, color: AppTheme.primaryColor),
+            ),
             const SizedBox(height: 10),
             Text(label, style: const TextStyle(color: Colors.grey)),
           ],
@@ -1588,39 +1596,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HorizontalText extends StatelessWidget {
-  final String title;
-  final VoidCallback? onViewAll;
-
-  const HorizontalText({Key? key, required this.title, this.onViewAll})
-    : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 18, right: 18, bottom: 12),
-      child: Row(
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              color: Color(0xff721c80),
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          ),
-          const Spacer(),
-          GestureDetector(
-            onTap: onViewAll,
-            child: const Text("View all", style: TextStyle(color: Colors.grey)),
-          ),
-          const Icon(Icons.double_arrow_rounded, color: Colors.grey, size: 18),
-        ],
       ),
     );
   }

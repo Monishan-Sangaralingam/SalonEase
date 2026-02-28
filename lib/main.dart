@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_app/provider/user_provider.dart';
 import 'package:salon_app/screens/introduction/spalsh_screen.dart';
+import 'package:salon_app/utils/app_theme.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Salon app',
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: AppTheme.themeData,
         home: const SplashScreen(),
       ),
     );

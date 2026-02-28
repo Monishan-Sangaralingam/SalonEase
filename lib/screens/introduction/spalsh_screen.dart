@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:salon_app/screens/introduction/onboarding_screen.dart';
+import 'package:salon_app/utils/app_theme.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -11,7 +12,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool isAnimate = true;
-  bool isClicked = false;
 
   final width = 50;
 
@@ -53,8 +53,10 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: const CircleAvatar(
                     backgroundColor: Colors.purple,
                     radius: 80,
-                    foregroundImage: NetworkImage(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlsWQc8piebZMl-wQAD71xoEFovIAxB0bCYURrbrb1y_URNyoW6I0q6QpbKo_Fo6ZBDRw&usqp=CAU",
+                    child: Icon(
+                      Icons.content_cut,
+                      size: 60,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -71,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: const Text(
                     "SalonEase",
                     style: TextStyle(
-                      color: Colors.purple,
+                      color: AppTheme.primaryColor,
                       fontSize: 40,
                       letterSpacing: 1.3,
                       fontStyle: FontStyle.normal,
