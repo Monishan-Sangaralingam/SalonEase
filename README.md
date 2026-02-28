@@ -17,7 +17,6 @@ Flutter app with clean user interface and morden functionallities like goole map
 
 ## Authors
 
-- [@HimanshuGoyal](https://www.linkedin.com/in/himanshu-goyal048/)
 
 ## Color Reference
 
@@ -30,7 +29,6 @@ Flutter app with clean user interface and morden functionallities like goole map
 
 ## Demo
 
-https://www.linkedin.com/feed/update/urn:li:activity:7013721931489144832?utm_source=share&utm_medium=member_desktop
 
     
 ## Features
